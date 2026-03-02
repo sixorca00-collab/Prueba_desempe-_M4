@@ -11,10 +11,10 @@ app.get('/health', (_req, res) => {
   res.status(200).json({ ok: true });
 });
 
-app.use('/api/clientes', clientRoutes);
-app.use('/api/productos', productRoutes);
-app.use('/api/transferencias', transferRoutes);
-app.use('/api/proveedores', providerRoutes);
+app.use('/api/clientS', clientRoutes);
+app.use('/api/productS', productRoutes);
+app.use('/api/transfS', transferRoutes);
+app.use('/api/providers', providerRoutes);
 
 app.use((err, _req, res, _next) => {
   const status = err.status || 500;

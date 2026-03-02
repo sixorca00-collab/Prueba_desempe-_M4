@@ -9,9 +9,9 @@ export const createProvider = async ({ nombre, email }) => {
   assertPool();
   const { rows } = await pool.query(
     `
-      INSERT INTO proveedores (nombre, email)
+      INSERT INTO providers(name, email)
       VALUES ($1, $2)
-      RETURNING id, nombre, email
+      RETURNING id, name, email
     `,
     [nombre, email]
   );
@@ -20,13 +20,13 @@ export const createProvider = async ({ nombre, email }) => {
 
 export const getProviders = async () => {
   assertPool();
-  const { rows } = await pool.query('SELECT id, nombre, email FROM proveedores ORDER BY id ASC');
+  const { rows } = await pool.query('SELECT id, name, email FROM providers ORDER BY id ASC');
   return rows;
 };
 
 export const getProviderById = async (id) => {
   assertPool();
-  const { rows } = await pool.query('SELECT id, nombre, email FROM proveedores WHERE id = $1', [id]);
+  const { rows } = await pool.query('SELECT id, name, email FROM providers WHERE id = $1', [id]);
   return rows[0] ?? null;
 };
 
@@ -34,8 +34,8 @@ export const updateProvider = async (id, { nombre, email }) => {
   assertPool();
   const { rows } = await pool.query(
     `
-      UPDATE proveedores
-      SET nombre = $1, email = $2
+      UPDATE providers
+      SET name = $1, email = $2
       WHERE id = $3
       RETURNING id, nombre, email
     `,
@@ -46,6 +46,6 @@ export const updateProvider = async (id, { nombre, email }) => {
 
 export const deleteProvider = async (id) => {
   assertPool();
-  const { rowCount } = await pool.query('DELETE FROM proveedores WHERE id = $1', [id]);
+  const { rowCount } = await pool.query('DELETE FROM providers WHERE id = $1', [id]);
   return rowCount > 0;
 };

@@ -15,10 +15,10 @@ const parseClientPayload = (body, { partial = false } = {}) => {
   const direccion = body?.direccion;
 
   return {
-    nombre: partial && nombre === undefined ? undefined : requiredString(nombre, 'nombre'),
+    nombre: partial && nombre === undefined ? undefined : requiredString(nombre, 'name'),
     email: partial && email === undefined ? undefined : requiredString(email, 'email'),
-    telefono: optionalString(telefono, 'telefono'),
-    direccion: optionalString(direccion, 'direccion')
+    telefono: optionalString(telefono, 'phone'),
+    direccion: optionalString(direccion, 'address')
   };
 };
 
@@ -46,7 +46,7 @@ export const getClientByIdHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
     const client = await getClientById(id);
-    if (!client) return res.status(404).json({ message: 'Cliente no encontrado.' });
+    if (!client) return res.status(404).json({ message: 'Client not found.' });
     return res.status(200).json(client);
   } catch (error) {
     next(error);
@@ -57,7 +57,7 @@ export const updateClientHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
     const current = await getClientById(id);
-    if (!current) return res.status(404).json({ message: 'Cliente no encontrado.' });
+    if (!current) return res.status(404).json({ message: 'Client not found.' });
 
     const payload = parseClientPayload(req.body, { partial: true });
     const updated = await updateClient(id, {
@@ -78,7 +78,7 @@ export const deleteClientHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
     const deleted = await deleteClient(id);
-    if (!deleted) return res.status(404).json({ message: 'Cliente no encontrado.' });
+    if (!deleted) return res.status(404).json({ message: 'Client not found.' });
     return res.status(204).send();
   } catch (error) {
     next(error);

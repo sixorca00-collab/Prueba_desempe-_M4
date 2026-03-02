@@ -12,7 +12,7 @@ const startServer = async () => {
     if (env.MONGO.URI) {
       await connectMongo();
     } else {
-      console.warn('MONGO_URI_DB no configurada: se omite conexion a MongoDB.');
+      console.error('MONGO_URI_DB Not configured: connection to MongoDB is omitted.');
     }
 
     app.listen(env.APP_PORT, () => {

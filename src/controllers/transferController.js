@@ -13,7 +13,7 @@ const parseTransferPayload = (body, { partial = false } = {}) => {
   if (partial && fecha === undefined) return { fecha: undefined };
 
   return {
-    fecha: requiredDateString(fecha, 'fecha')
+    fecha: requiredDateString(fecha, 'date')
   };
 };
 
@@ -40,7 +40,7 @@ export const getTransferByIdHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
     const transfer = await getTransferById(id);
-    if (!transfer) return res.status(404).json({ message: 'Transferencia no encontrada.' });
+    if (!transfer) return res.status(404).json({ message: 'Transfer not found.' });
     return res.status(200).json(transfer);
   } catch (error) {
     next(error);
@@ -51,7 +51,7 @@ export const updateTransferHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
     const current = await getTransferById(id);
-    if (!current) return res.status(404).json({ message: 'Transferencia no encontrada.' });
+    if (!current) return res.status(404).json({ message: 'Transfer not found.' });
 
     const payload = parseTransferPayload(req.body, { partial: true });
     const updated = await updateTransfer(id, {
@@ -68,7 +68,7 @@ export const deleteTransferHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
     const deleted = await deleteTransfer(id);
-    if (!deleted) return res.status(404).json({ message: 'Transferencia no encontrada.' });
+    if (!deleted) return res.status(404).json({ message: 'Transfer not found.' });
     return res.status(204).send();
   } catch (error) {
     next(error);

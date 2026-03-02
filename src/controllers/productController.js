@@ -24,10 +24,10 @@ const parseProductPayload = (body, { partial = false } = {}) => {
     nombre_producto:
       partial && nombre_producto === undefined
         ? undefined
-        : requiredString(nombre_producto, 'nombre_producto'),
-    cantidad: optionalInteger(cantidad, 'cantidad'),
+        : requiredString(nombre_producto, 'Product name'),
+    cantidad: optionalInteger(cantidad, 'amount'),
     skun: partial && skun === undefined ? undefined : requiredString(skun, 'skun'),
-    precio: optionalNumber(precio, 'precio')
+    precio: optionalNumber(precio, 'price')
   };
 };
 
@@ -35,8 +35,8 @@ export const createProductHandler = async (req, res, next) => {
   try {
     const payload = parseProductPayload(req.body);
 
-    if (payload.cantidad === undefined) throw httpError('cantidad is required.', 400);
-    if (payload.precio === undefined) throw httpError('precio is required.', 400);
+    if (payload.cantidad === undefined) throw httpError('amount is required.', 400);
+    if (payload.precio === undefined) throw httpError('price  is required.', 400);
 
     const product = await createProduct(payload);
     res.status(201).json(product);
@@ -59,7 +59,7 @@ export const getProductByIdHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
     const product = await getProductById(id);
-    if (!product) return res.status(404).json({ message: 'Producto no encontrado.' });
+    if (!product) return res.status(404).json({ message: 'Product not found.' });
     return res.status(200).json(product);
   } catch (error) {
     next(error);
@@ -70,7 +70,7 @@ export const updateProductHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
     const current = await getProductById(id);
-    if (!current) return res.status(404).json({ message: 'Producto no encontrado.' });
+    if (!current) return res.status(404).json({ message: 'Product not found.' });
 
     const payload = parseProductPayload(req.body, { partial: true });
     const updated = await updateProduct(id, {
@@ -91,7 +91,7 @@ export const deleteProductHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
     const deleted = await deleteProduct(id);
-    if (!deleted) return res.status(404).json({ message: 'Producto no encontrado.' });
+    if (!deleted) return res.status(404).json({ message: 'Product not found.' });
     return res.status(204).send();
   } catch (error) {
     next(error);

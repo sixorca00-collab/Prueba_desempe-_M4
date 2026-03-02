@@ -13,7 +13,7 @@ const parseProviderPayload = (body, { partial = false } = {}) => {
   const email = body?.email;
 
   return {
-    nombre: partial && nombre === undefined ? undefined : requiredString(nombre, 'nombre'),
+    nombre: partial && nombre === undefined ? undefined : requiredString(nombre, 'name'),
     email: partial && email === undefined ? undefined : requiredString(email, 'email')
   };
 };
@@ -42,7 +42,7 @@ export const getProviderByIdHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
     const provider = await getProviderById(id);
-    if (!provider) return res.status(404).json({ message: 'Proveedor no encontrado.' });
+    if (!provider) return res.status(404).json({ message: 'Provider not found.' });
     return res.status(200).json(provider);
   } catch (error) {
     next(error);
@@ -53,7 +53,7 @@ export const updateProviderHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
     const current = await getProviderById(id);
-    if (!current) return res.status(404).json({ message: 'Proveedor no encontrado.' });
+    if (!current) return res.status(404).json({ message: 'Provider not found.' });
 
     const payload = parseProviderPayload(req.body, { partial: true });
     const updated = await updateProvider(id, {
@@ -72,7 +72,7 @@ export const deleteProviderHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
     const deleted = await deleteProvider(id);
-    if (!deleted) return res.status(404).json({ message: 'Proveedor no encontrado.' });
+    if (!deleted) return res.status(404).json({ message: 'Provider not found.' });
     return res.status(204).send();
   } catch (error) {
     next(error);
