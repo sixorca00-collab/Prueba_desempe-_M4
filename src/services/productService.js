@@ -7,16 +7,20 @@ const assertPool = () => {
 };
 
 // Insert a new product.
-export const createProduct = async ({ name_product, sku, amount, price }) => {
+export const createProduct = async ({ nombre_producto, cantidad, skun, precio }) => {
   assertPool();
 
   const { rows } = await pool.query(
     `
-      INSERT INTO productos (nombre_producto, cantidad, skun, precio)
+      INSERT INTO products (name_product, amount, skun, price)
       VALUES ($1, $2, $3, $4)
-      RETURNING id, nombre_producto, cantidad, skun, precio
+      RETURNING id,
+                name_product AS nombre_producto,
+                amount AS cantidad,
+                skun,
+                price AS precio
     `,
-    [name_product, amount, sku, price]
+    [nombre_producto, cantidad, skun, precio]
   );
 
   return rows[0];
@@ -27,7 +31,15 @@ export const getProducts = async () => {
   assertPool();
 
   const { rows } = await pool.query(
-    'SELECT id, name_product, cantidad, sku, price FROM products ORDER BY id ASC'
+    `
+      SELECT id,
+             name_product AS nombre_producto,
+             amount AS cantidad,
+             skun,
+             price AS precio
+      FROM products
+      ORDER BY id ASC
+    `
   );
 
   return rows;
@@ -38,7 +50,15 @@ export const getProductById = async (id) => {
   assertPool();
 
   const { rows } = await pool.query(
-    'SELECT id, name_product, cantidad, sku, price FROM products WHERE id = $1',
+    `
+      SELECT id,
+             name_product AS nombre_producto,
+             amount AS cantidad,
+             skun,
+             price AS precio
+      FROM products
+      WHERE id = $1
+    `,
     [id]
   );
 
@@ -46,17 +66,21 @@ export const getProductById = async (id) => {
 };
 
 // Update one product by id.
-export const updateProduct = async (id, { name_product, cantidad, sku, price }) => {
+export const updateProduct = async (id, { nombre_producto, cantidad, skun, precio }) => {
   assertPool();
 
   const { rows } = await pool.query(
     `
       UPDATE products
-      SET name_product = $1, amount = $2, sku = $3, price = $4
+      SET name_product = $1, amount = $2, skun = $3, price = $4
       WHERE id = $5
-      RETURNING id, name_product, amount, sku, price        
+      RETURNING id,
+                name_product AS nombre_producto,
+                amount AS cantidad,
+                skun,
+                price AS precio
     `,
-    [name_product, cantidad, sku, price, id]
+    [nombre_producto, cantidad, skun, precio, id]
   );
 
   return rows[0] ?? null;

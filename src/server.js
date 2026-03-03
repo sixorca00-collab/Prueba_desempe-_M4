@@ -3,7 +3,6 @@ import { env } from './config/env.js';
 import { connectPostgres } from './config/postgresConfig.js';
 import { initDb } from './db/initDb.js';
 
-// Start the API after the database connection is ready.
 const startServer = async () => {
   try {
     await connectPostgres();

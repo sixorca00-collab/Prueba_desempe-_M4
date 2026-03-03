@@ -10,7 +10,7 @@ import { optionalString, parseId, requiredString } from '../utils/validators.js'
 
 // Validate client payload for create and update operations.
 const parseClientPayload = (body, { partial = false } = {}) => {
-  const name = body?.name ;
+  const name = body?.name;
   const email = body?.email;
   const phone = body?.phone;
   const address = body?.address;
@@ -66,10 +66,10 @@ export const updateClientHandler = async (req, res, next) => {
 
     const payload = parseClientPayload(req.body, { partial: true });
     const updated = await updateClient(id, {
-      nombre: payload.nombre ?? current.nombre,
+      name: payload.name ?? current.name,
       email: payload.email ?? current.email,
-      telefono: payload.telefono ?? current.telefono,
-      direccion: payload.direccion ?? current.direccion
+      phone: payload.phone ?? current.phone,
+      address: payload.address ?? current.address
     });
 
     return res.status(200).json(updated);

@@ -10,10 +10,10 @@ import { optionalInteger, optionalNumber, parseId, requiredString } from '../uti
 
 // Validate product payload for create and update operations.
 const parseProductPayload = (body, { partial = false } = {}) => {
-  const nombre_producto = body?.nombre_producto;
-  const cantidad = body?.cantidad;
+  const nombre_producto = body?.nombre_producto ?? body?.name_product;
+  const cantidad = body?.cantidad ?? body?.amount;
   const skun = body?.skun;
-  const precio = body?.precio;
+  const precio = body?.precio ?? body?.price;
 
   return {
     nombre_producto:
@@ -31,8 +31,8 @@ export const createProductHandler = async (req, res, next) => {
   try {
     const payload = parseProductPayload(req.body);
 
-    if (payload.cantidad === undefined) throw httpError('amount is required.', 400);
-    if (payload.precio === undefined) throw httpError('price is required.', 400);
+    if (payload.cantidad === undefined) throw httpError('cantidad is required.', 400);
+    if (payload.precio === undefined) throw httpError('precio is required.', 400);
 
     const product = await createProduct(payload);
     res.status(201).json(product);

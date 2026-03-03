@@ -10,7 +10,7 @@ import { parseId, requiredString } from '../utils/validators.js';
 
 // Validate provider payload for create and update operations.
 const parseProviderPayload = (body, { partial = false } = {}) => {
-  const name= body?.name;
+  const name = body?.name;
   const email = body?.email;
 
   return {
@@ -62,7 +62,7 @@ export const updateProviderHandler = async (req, res, next) => {
 
     const payload = parseProviderPayload(req.body, { partial: true });
     const updated = await updateProvider(id, {
-      nombre: payload.nombre ?? current.nombre,
+      name: payload.name ?? current.name,
       email: payload.email ?? current.email
     });
 
