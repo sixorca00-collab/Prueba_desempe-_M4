@@ -6,10 +6,9 @@ const assertPool = () => {
   if (!pool) throw httpError('Database connection is not initialized.', 500);
 };
 
-/**
- * Create a new customer in the normalized customers table.
- * Email is unique constraint.
- */
+
+  //Create a new customer in the normalized customers table.
+ 
 export const createCustomer = async ({ name, email, phone, address }) => {
   assertPool();
   try {
@@ -26,9 +25,9 @@ export const createCustomer = async ({ name, email, phone, address }) => {
   }
 };
 
-/**
- * Retrieve all customers.
- */
+
+ //Retrieve all customers.
+ 
 export const getCustomers = async () => {
   assertPool();
   const { rows } = await pool.query(
@@ -37,9 +36,9 @@ export const getCustomers = async () => {
   return rows;
 };
 
-/**
- * Retrieve a single customer by ID.
- */
+
+ //Retrieve a single customer by ID.
+ 
 export const getCustomerById = async (id) => {
   assertPool();
   const { rows } = await pool.query(
@@ -49,9 +48,9 @@ export const getCustomerById = async (id) => {
   return rows[0] ?? null;
 };
 
-/**
- * Update customer details (partial or full update).
- */
+
+ // Update customer details (partial or full update).
+ 
 export const updateCustomer = async (id, { name, email, phone, address }) => {
   assertPool();
   try {
@@ -69,10 +68,9 @@ export const updateCustomer = async (id, { name, email, phone, address }) => {
   }
 };
 
-/**
- * Delete customer - logs to MongoDB then deletes from Postgres.
- * Will cascade-delete all related orders and order_items.
- */
+
+ //Delete customer - logs to MongoDB then deletes from Postgres.
+ 
 export const deleteCustomer = async (id) => {
   assertPool();
   const client = await pool.connect();

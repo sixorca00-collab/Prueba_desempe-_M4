@@ -1,10 +1,5 @@
 import { pool } from '../config/postgresConfig.js';
 
-/**
- * Initialize (or migrate) database schema.
- * Creates normalized English-named tables with proper 3NF structure.
- * Keeps existing Spanish legacy tables untouched for backwards compatibility.
- */
 export const initDb = async () => {
   if (!pool) throw new Error('Postgres pool is not initialized.');
 
@@ -45,7 +40,6 @@ export const initDb = async () => {
       );
     `);
 
-    // === NORMALIZED TABLES (3NF) ===
     // Create base entities FIRST (no foreign keys in CREATE)
 
     // Customers: core customer entity

@@ -63,8 +63,6 @@ const migrate = async () => {
     const productCount = await client.query('SELECT COUNT(*) FROM products');
     console.log(`✓ Products: ${productCount.rows[0].count} total`);
 
-    // Migrate orders and order items (if transferencias had order info, uncomment/adapt)
-    // For now, we'll just ensure tables are ready
     console.log('✓ Orders & Order Items tables ready for data ingestion');
 
     await client.query('COMMIT');

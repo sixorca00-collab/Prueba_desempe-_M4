@@ -1,23 +1,8 @@
--- ============================================================================
--- MegaStore Global Database Structure - PostgreSQL (3NF Normalized)
--- ============================================================================
--- Author: Senior Backend Engineer
--- Date: 2026-03-02
--- Purpose: Migration from unnormalized Excel data to relational database (3NF)
---
--- NORMALIZATION APPROACH:
--- - Legacy Spanish-named tables kept for backwards compatibility
--- - New English-named tables created with proper normalization
--- - All tables enforce 3NF constraints and referential integrity
---
--- ============================================================================
+
 
 CREATE SCHEMA IF NOT EXISTS megastore_juanolarte;
 SET search_path TO megastore_juanolarte;
 
--- ============================================================================
--- LEGACY TABLES (Spanish naming, kept for backwards compatibility)
--- ============================================================================
 
 CREATE TABLE IF NOT EXISTS clientes (
   id SERIAL PRIMARY KEY,
@@ -46,12 +31,6 @@ CREATE TABLE IF NOT EXISTS transferencias (
   fecha TIMESTAMP NOT NULL
 );
 
--- ============================================================================
--- NORMALIZED TABLES (English naming, 3NF)
--- ============================================================================
-
--- CUSTOMERS: Core entity for clients
--- Normalized - no redundancy, unique email constraint
 CREATE TABLE IF NOT EXISTS customers (
   id SERIAL PRIMARY KEY,
   name VARCHAR(150) NOT NULL,
@@ -78,8 +57,6 @@ CREATE TABLE IF NOT EXISTS categories (
 );
 
 -- PRODUCTS: Core product catalog
--- 3NF: depends on supplier_id and category_id (foreign keys)
--- SKU is unique identifier
 CREATE TABLE IF NOT EXISTS products (
   id SERIAL PRIMARY KEY,
   name_product VARCHAR(200) NOT NULL,
@@ -91,8 +68,7 @@ CREATE TABLE IF NOT EXISTS products (
 );
 
 -- INVENTORY: Separate table for quantity tracking (3NF decomposition)
--- Non-key attributes dedicated to inventory management
--- One-to-one relationship with products
+
 CREATE TABLE IF NOT EXISTS inventory (
   id SERIAL PRIMARY KEY,
   product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
@@ -101,7 +77,7 @@ CREATE TABLE IF NOT EXISTS inventory (
 );
 
 -- ORDERS: Customer purchases
--- 3NF: customer_id is foreign key, total_amount calculated
+
 CREATE TABLE IF NOT EXISTS orders (
   id SERIAL PRIMARY KEY,
   customer_id INTEGER NOT NULL REFERENCES customers(id) ON DELETE CASCADE,
@@ -110,8 +86,7 @@ CREATE TABLE IF NOT EXISTS orders (
 );
 
 -- ORDER_ITEMS: Line items in orders (bridge table)
--- 3NF: separates order from products, many-to-many through this table
--- Includes unit_price snapshot to preserve historical data
+
 CREATE TABLE IF NOT EXISTS order_items (
   id SERIAL PRIMARY KEY,
   order_id INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
@@ -121,9 +96,6 @@ CREATE TABLE IF NOT EXISTS order_items (
   total NUMERIC(14,2) NOT NULL
 );
 
--- ============================================================================
--- INDEXES FOR PERFORMANCE
--- ============================================================================
 
 CREATE INDEX IF NOT EXISTS idx_products_supplier ON products(supplier_id);
 CREATE INDEX IF NOT EXISTS idx_products_category ON products(category_id);

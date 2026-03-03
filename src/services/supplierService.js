@@ -6,9 +6,7 @@ const assertPool = () => {
   if (!pool) throw httpError('Database connection is not initialized.', 500);
 };
 
-/**
- * Create a new supplier (unique by name).
- */
+// Create a new supplier in the normalized suppliers table.
 export const createSupplier = async ({ name, email }) => {
   assertPool();
   try {
@@ -25,9 +23,7 @@ export const createSupplier = async ({ name, email }) => {
   }
 };
 
-/**
- * Retrieve all suppliers.
- */
+//  Retrieve all suppliers.
 export const getSuppliers = async () => {
   assertPool();
   const { rows } = await pool.query(
@@ -36,9 +32,7 @@ export const getSuppliers = async () => {
   return rows;
 };
 
-/**
- * Retrieve a single supplier by ID.
- */
+// Retrieve a single supplier by ID.
 export const getSupplierById = async (id) => {
   assertPool();
   const { rows } = await pool.query(
@@ -48,9 +42,7 @@ export const getSupplierById = async (id) => {
   return rows[0] ?? null;
 };
 
-/**
- * Update supplier details.
- */
+// Update supplier details (partial or full update).
 export const updateSupplier = async (id, { name, email }) => {
   assertPool();
   try {
@@ -68,10 +60,7 @@ export const updateSupplier = async (id, { name, email }) => {
   }
 };
 
-/**
- * Delete supplier - logs to MongoDB then deletes from Postgres.
- * Products will have supplier_id set to NULL via ON DELETE SET NULL.
- */
+// Delete supplier - logs to MongoDB then deletes from Postgres.
 export const deleteSupplier = async (id) => {
   assertPool();
   const client = await pool.connect();

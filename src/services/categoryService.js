@@ -5,9 +5,8 @@ const assertPool = () => {
   if (!pool) throw httpError('Database connection is not initialized.', 500);
 };
 
-/**
- * Create a new category (unique by name).
- */
+ //Create a new category (unique by name).
+ 
 export const createCategory = async ({ name }) => {
   assertPool();
   try {
@@ -22,27 +21,27 @@ export const createCategory = async ({ name }) => {
   }
 };
 
-/**
- * Retrieve all categories.
- */
+
+ //Retrieve all categories.
+
 export const getCategories = async () => {
   assertPool();
   const { rows } = await pool.query('SELECT id, name FROM categories ORDER BY id ASC');
   return rows;
 };
 
-/**
- * Retrieve a single category by ID.
- */
+
+//Retrieve a single category by ID.
+ 
 export const getCategoryById = async (id) => {
   assertPool();
   const { rows } = await pool.query('SELECT id, name FROM categories WHERE id = $1', [id]);
   return rows[0] ?? null;
 };
 
-/**
- * Update category name.
- */
+
+ // Update category name.
+
 export const updateCategory = async (id, { name }) => {
   assertPool();
   try {
@@ -57,10 +56,9 @@ export const updateCategory = async (id, { name }) => {
   }
 };
 
-/**
- * Delete category.
- * Products will have category_id set to NULL via ON DELETE SET NULL.
- */
+
+ //Delete category.
+
 export const deleteCategory = async (id) => {
   assertPool();
   const { rowCount } = await pool.query('DELETE FROM categories WHERE id = $1', [id]);

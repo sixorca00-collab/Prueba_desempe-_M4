@@ -5,11 +5,7 @@ const assertPool = () => {
   if (!pool) throw httpError('Database connection is not initialized.', 500);
 };
 
-/**
- * Create a new order with items.
- * Items must be an array of { product_id, quantity, unit_price }.
- * Calculates and stores total_amount automatically.
- */
+//create a new order with items. Calculates total amount. Uses transaction for atomicity.
 export const createOrder = async ({ customer_id, items }) => {
   assertPool();
 
@@ -58,9 +54,7 @@ export const createOrder = async ({ customer_id, items }) => {
   }
 };
 
-/**
- * Retrieve all orders with total counts.
- */
+// Retrieve all orders (without items for list view).
 export const getOrders = async () => {
   assertPool();
   const { rows } = await pool.query(
@@ -69,9 +63,7 @@ export const getOrders = async () => {
   return rows;
 };
 
-/**
- * Retrieve a single order with its items.
- */
+// Retrieve single order with items.
 export const getOrderById = async (id) => {
   assertPool();
   const { rows: orderRows } = await pool.query(
@@ -88,9 +80,7 @@ export const getOrderById = async (id) => {
   return { order: orderRows[0], items: itemRows };
 };
 
-/**
- * Delete an order (cascade deletes order_items).
- */
+// Delete order and its items (cascades via foreign key). Logs deletion to MongoDB.
 export const deleteOrder = async (id) => {
   assertPool();
   const { rowCount } = await pool.query('DELETE FROM orders WHERE id = $1', [id]);
