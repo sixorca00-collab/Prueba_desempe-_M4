@@ -1,10 +1,4 @@
-/**
- * Migration script to import data from legacy Spanish-named tables into normalized English tables
- * Ensures idempotent behavior: avoids duplicates and reuses existing records
- * Uses transactions for data integrity
- *
- * Run with: node src/db/migrate.js
- */
+
 
 import { pool } from '../config/postgresConfig.js';
 
