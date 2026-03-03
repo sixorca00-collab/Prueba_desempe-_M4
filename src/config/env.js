@@ -1,5 +1,6 @@
 import 'dotenv/config';
 
+// Centralized environment variables used by the app.
 export const env = {
   APP_PORT: Number(process.env.APP_PORT) || 3000,
   DB: {
@@ -8,8 +9,5 @@ export const env = {
     USER: process.env.DB_USER,
     PASSWORD: process.env.DB_PWD,
     NAME: process.env.DB_NAME
-  },
-  MONGO: {
-    URI: process.env.MONGO_URI_DB
   }
 };

@@ -8,16 +8,18 @@ import {
 import { httpError } from '../utils/httpError.js';
 import { parseId, requiredString } from '../utils/validators.js';
 
+// Validate provider payload for create and update operations.
 const parseProviderPayload = (body, { partial = false } = {}) => {
   const nombre = body?.nombre;
   const email = body?.email;
 
   return {
-    nombre: partial && nombre === undefined ? undefined : requiredString(nombre, 'name'),
+    nombre: partial && nombre === undefined ? undefined : requiredString(nombre, 'nombre'),
     email: partial && email === undefined ? undefined : requiredString(email, 'email')
   };
 };
 
+// Create a provider.
 export const createProviderHandler = async (req, res, next) => {
   try {
     const payload = parseProviderPayload(req.body);
@@ -29,6 +31,7 @@ export const createProviderHandler = async (req, res, next) => {
   }
 };
 
+// Get all providers.
 export const getProvidersHandler = async (_req, res, next) => {
   try {
     const providers = await getProviders();
@@ -38,6 +41,7 @@ export const getProvidersHandler = async (_req, res, next) => {
   }
 };
 
+// Get one provider by id.
 export const getProviderByIdHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
@@ -49,6 +53,7 @@ export const getProviderByIdHandler = async (req, res, next) => {
   }
 };
 
+// Update one provider by id.
 export const updateProviderHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
@@ -68,6 +73,7 @@ export const updateProviderHandler = async (req, res, next) => {
   }
 };
 
+// Delete one provider by id.
 export const deleteProviderHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);

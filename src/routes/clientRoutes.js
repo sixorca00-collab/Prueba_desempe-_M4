@@ -7,6 +7,7 @@ import {
   updateClientHandler
 } from '../controllers/clientController.js';
 
+// Define HTTP routes for clients.
 const router = Router();
 
 router.post('/', createClientHandler);

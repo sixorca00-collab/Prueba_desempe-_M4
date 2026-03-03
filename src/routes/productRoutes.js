@@ -7,6 +7,7 @@ import {
   updateProductHandler
 } from '../controllers/productController.js';
 
+// Define HTTP routes for products.
 const router = Router();
 
 router.post('/', createProductHandler);

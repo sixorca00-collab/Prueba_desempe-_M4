@@ -6,14 +6,9 @@ import {
   updateProduct
 } from '../services/productService.js';
 import { httpError } from '../utils/httpError.js';
-import {
-  optionalInteger,
-  optionalNumber,
-  optionalString,
-  parseId,
-  requiredString
-} from '../utils/validators.js';
+import { optionalInteger, optionalNumber, parseId, requiredString } from '../utils/validators.js';
 
+// Validate product payload for create and update operations.
 const parseProductPayload = (body, { partial = false } = {}) => {
   const nombre_producto = body?.nombre_producto;
   const cantidad = body?.cantidad;
@@ -24,19 +19,20 @@ const parseProductPayload = (body, { partial = false } = {}) => {
     nombre_producto:
       partial && nombre_producto === undefined
         ? undefined
-        : requiredString(nombre_producto, 'Product name'),
-    cantidad: optionalInteger(cantidad, 'amount'),
+        : requiredString(nombre_producto, 'nombre_producto'),
+    cantidad: optionalInteger(cantidad, 'cantidad'),
     skun: partial && skun === undefined ? undefined : requiredString(skun, 'skun'),
-    precio: optionalNumber(precio, 'price')
+    precio: optionalNumber(precio, 'precio')
   };
 };
 
+// Create a product.
 export const createProductHandler = async (req, res, next) => {
   try {
     const payload = parseProductPayload(req.body);
 
-    if (payload.cantidad === undefined) throw httpError('amount is required.', 400);
-    if (payload.precio === undefined) throw httpError('price  is required.', 400);
+    if (payload.cantidad === undefined) throw httpError('cantidad is required.', 400);
+    if (payload.precio === undefined) throw httpError('precio is required.', 400);
 
     const product = await createProduct(payload);
     res.status(201).json(product);
@@ -46,6 +42,7 @@ export const createProductHandler = async (req, res, next) => {
   }
 };
 
+// Get all products.
 export const getProductsHandler = async (_req, res, next) => {
   try {
     const products = await getProducts();
@@ -55,6 +52,7 @@ export const getProductsHandler = async (_req, res, next) => {
   }
 };
 
+// Get one product by id.
 export const getProductByIdHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
@@ -66,6 +64,7 @@ export const getProductByIdHandler = async (req, res, next) => {
   }
 };
 
+// Update one product by id.
 export const updateProductHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
@@ -87,6 +86,7 @@ export const updateProductHandler = async (req, res, next) => {
   }
 };
 
+// Delete one product by id.
 export const deleteProductHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);

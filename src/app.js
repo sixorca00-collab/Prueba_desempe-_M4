@@ -1,36 +1,27 @@
 import express from 'express';
 import clientRoutes from './routes/clientRoutes.js';
 import productRoutes from './routes/productRoutes.js';
-import providerRoutes from './routes/providerRoutes.js';
 import transferRoutes from './routes/transferRoutes.js';
-import analyticsRoutes from './routes/analyticsRoutes.js';
-import customerRoutes from './routes/customerRoutes.js';
-import supplierRoutes from './routes/supplierRoutes.js';
-import categoryRoutes from './routes/categoryRoutes.js';
-import orderRoutes from './routes/orderRoutes.js';
+import providerRoutes from './routes/providerRoutes.js';
 
+// Create the Express application instance.
 const app = express();
+
+// Parse incoming JSON payloads.
 app.use(express.json());
 
+// Basic endpoint to verify that the API is up.
 app.get('/health', (_req, res) => {
   res.status(200).json({ ok: true });
 });
 
-// Legacy routes (Spanish naming)
-app.use('/api/clientS', clientRoutes);
-app.use('/api/productS', productRoutes);
-app.use('/api/transfS', transferRoutes);
-app.use('/api/providers', providerRoutes);
+// Mount business routes by resource.
+app.use('/api/clientes', clientRoutes);
+app.use('/api/productos', productRoutes);
+app.use('/api/transferencias', transferRoutes);
+app.use('/api/proveedores', providerRoutes);
 
-// New normalized routes (English naming, 3NF)
-app.use('/api/customers', customerRoutes);
-app.use('/api/suppliers', supplierRoutes);
-app.use('/api/categories', categoryRoutes);
-app.use('/api/orders', orderRoutes);
-
-// Analytics endpoints
-app.use('/api/analytics', analyticsRoutes);
-
+// Global error handler.
 app.use((err, _req, res, _next) => {
   const status = err.status || 500;
   const message = err.message || 'Internal server error.';

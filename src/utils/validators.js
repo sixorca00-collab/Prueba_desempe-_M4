@@ -1,5 +1,6 @@
 import { httpError } from './httpError.js';
 
+// Parse and validate a numeric id parameter.
 export const parseId = (idParam) => {
   const id = Number.parseInt(idParam, 10);
 
@@ -10,6 +11,16 @@ export const parseId = (idParam) => {
   return id;
 };
 
+// Validate a required non-empty string.
+export const requiredString = (value, fieldName) => {
+  if (typeof value !== 'string' || value.trim().length === 0) {
+    throw httpError(`${fieldName} is required and must be a non-empty string.`, 400);
+  }
+
+  return value.trim();
+};
+
+// Validate an optional string.
 export const optionalString = (value, fieldName) => {
   if (value === undefined) return undefined;
   if (value === null) return null;
@@ -21,24 +32,7 @@ export const optionalString = (value, fieldName) => {
   return value.trim();
 };
 
-export const requiredString = (value, fieldName) => {
-  if (typeof value !== 'string' || value.trim().length === 0) {
-    throw httpError(`${fieldName} is required and must be a non-empty string.`, 400);
-  }
-
-  return value.trim();
-};
-
-export const optionalNumber = (value, fieldName) => {
-  if (value === undefined) return undefined;
-
-  if (typeof value !== 'number' || Number.isNaN(value)) {
-    throw httpError(`${fieldName} must be a valid number.`, 400);
-  }
-
-  return value;
-};
-
+// Validate an optional integer.
 export const optionalInteger = (value, fieldName) => {
   if (value === undefined) return undefined;
 
@@ -49,6 +43,18 @@ export const optionalInteger = (value, fieldName) => {
   return value;
 };
 
+// Validate an optional numeric value.
+export const optionalNumber = (value, fieldName) => {
+  if (value === undefined) return undefined;
+
+  if (typeof value !== 'number' || Number.isNaN(value)) {
+    throw httpError(`${fieldName} must be a valid number.`, 400);
+  }
+
+  return value;
+};
+
+// Validate a required date string.
 export const requiredDateString = (value, fieldName) => {
   if (typeof value !== 'string' || value.trim().length === 0) {
     throw httpError(`${fieldName} is required and must be a valid date string.`, 400);

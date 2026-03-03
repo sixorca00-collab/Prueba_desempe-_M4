@@ -7,6 +7,7 @@ import {
   updateTransferHandler
 } from '../controllers/transferController.js';
 
+// Define HTTP routes for transfers.
 const router = Router();
 
 router.post('/', createTransferHandler);

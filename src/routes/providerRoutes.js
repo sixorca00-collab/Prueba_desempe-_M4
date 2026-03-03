@@ -7,6 +7,7 @@ import {
   updateProviderHandler
 } from '../controllers/providerController.js';
 
+// Define HTTP routes for providers.
 const router = Router();
 
 router.post('/', createProviderHandler);

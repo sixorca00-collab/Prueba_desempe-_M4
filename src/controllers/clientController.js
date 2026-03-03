@@ -8,6 +8,7 @@ import {
 import { httpError } from '../utils/httpError.js';
 import { optionalString, parseId, requiredString } from '../utils/validators.js';
 
+// Validate client payload for create and update operations.
 const parseClientPayload = (body, { partial = false } = {}) => {
   const nombre = body?.nombre;
   const email = body?.email;
@@ -15,13 +16,14 @@ const parseClientPayload = (body, { partial = false } = {}) => {
   const direccion = body?.direccion;
 
   return {
-    nombre: partial && nombre === undefined ? undefined : requiredString(nombre, 'name'),
+    nombre: partial && nombre === undefined ? undefined : requiredString(nombre, 'nombre'),
     email: partial && email === undefined ? undefined : requiredString(email, 'email'),
-    telefono: optionalString(telefono, 'phone'),
-    direccion: optionalString(direccion, 'address')
+    telefono: optionalString(telefono, 'telefono'),
+    direccion: optionalString(direccion, 'direccion')
   };
 };
 
+// Create a client.
 export const createClientHandler = async (req, res, next) => {
   try {
     const payload = parseClientPayload(req.body);
@@ -33,6 +35,7 @@ export const createClientHandler = async (req, res, next) => {
   }
 };
 
+// Get all clients.
 export const getClientsHandler = async (_req, res, next) => {
   try {
     const clients = await getClients();
@@ -42,6 +45,7 @@ export const getClientsHandler = async (_req, res, next) => {
   }
 };
 
+// Get one client by id.
 export const getClientByIdHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
@@ -53,6 +57,7 @@ export const getClientByIdHandler = async (req, res, next) => {
   }
 };
 
+// Update one client by id.
 export const updateClientHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
@@ -74,6 +79,7 @@ export const updateClientHandler = async (req, res, next) => {
   }
 };
 
+// Delete one client by id.
 export const deleteClientHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);

@@ -7,16 +7,18 @@ import {
 } from '../services/transferService.js';
 import { parseId, requiredDateString } from '../utils/validators.js';
 
+// Validate transfer payload for create and update operations.
 const parseTransferPayload = (body, { partial = false } = {}) => {
   const fecha = body?.fecha;
 
   if (partial && fecha === undefined) return { fecha: undefined };
 
   return {
-    fecha: requiredDateString(fecha, 'date')
+    fecha: requiredDateString(fecha, 'fecha')
   };
 };
 
+// Create a transfer.
 export const createTransferHandler = async (req, res, next) => {
   try {
     const payload = parseTransferPayload(req.body);
@@ -27,6 +29,7 @@ export const createTransferHandler = async (req, res, next) => {
   }
 };
 
+// Get all transfers.
 export const getTransfersHandler = async (_req, res, next) => {
   try {
     const transfers = await getTransfers();
@@ -36,6 +39,7 @@ export const getTransfersHandler = async (_req, res, next) => {
   }
 };
 
+// Get one transfer by id.
 export const getTransferByIdHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
@@ -47,6 +51,7 @@ export const getTransferByIdHandler = async (req, res, next) => {
   }
 };
 
+// Update one transfer by id.
 export const updateTransferHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
@@ -64,6 +69,7 @@ export const updateTransferHandler = async (req, res, next) => {
   }
 };
 
+// Delete one transfer by id.
 export const deleteTransferHandler = async (req, res, next) => {
   try {
     const id = parseId(req.params.id);
