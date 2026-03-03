@@ -28,8 +28,9 @@ The app creates required tables automatically when the server starts.
 ### ERD / Diagram
 <img src="./img/Captura%20desde%202026-03-02%2019-03-55.png" alt="ERD diagram 1" width="900" />
 <br/>
+### Table and CSV
 <img src="./img/Captura%20desde%202026-03-02%2019-04-38.png" alt="ERD diagram 2" width="900" />
-
+<a href ="./PM-prueba-de-desempeno-data_m4.csv">siza</a>
 ## 3) How to run it?
 ### Prerequisites
 - Node.js installed

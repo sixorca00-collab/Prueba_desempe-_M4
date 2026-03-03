@@ -7,16 +7,16 @@ const assertPool = () => {
 };
 
 // Insert a new transfer.
-export const createTransfer = async ({ fecha }) => {
+export const createTransfer = async ({order_date }) => {
   assertPool();
 
   const { rows } = await pool.query(
     `
-      INSERT INTO transferencias (fecha)
+      INSERT INTO transacctions (order_date)
       VALUES ($1)
-      RETURNING id, fecha
+      RETURNING id, order_date
     `,
-    [fecha]
+    [order_date]
   );
 
   return rows[0];
@@ -27,7 +27,7 @@ export const getTransfers = async () => {
   assertPool();
 
   const { rows } = await pool.query(
-    'SELECT id, fecha FROM transferencias ORDER BY id ASC'
+    'SELECT id, order_date FROM transacctions ORDER BY id ASC'
   );
 
   return rows;
@@ -37,22 +37,22 @@ export const getTransfers = async () => {
 export const getTransferById = async (id) => {
   assertPool();
 
-  const { rows } = await pool.query('SELECT id, fecha FROM transferencias WHERE id = $1', [id]);
+  const { rows } = await pool.query('SELECT id, order_date FROM transacctions WHERE id = $1', [id]);
   return rows[0] ?? null;
 };
 
 // Update one transfer by id.
-export const updateTransfer = async (id, { fecha }) => {
+export const updateTransfer = async (id, { order_date }) => {
   assertPool();
 
   const { rows } = await pool.query(
     `
-      UPDATE transferencias
-      SET fecha = $1
+      UPDATE transacctions
+      SET order_date = $1
       WHERE id = $2
-      RETURNING id, fecha
+      RETURNING id, order_date
     `,
-    [fecha, id]
+    [order_date, id]
   );
 
   return rows[0] ?? null;
@@ -62,6 +62,6 @@ export const updateTransfer = async (id, { fecha }) => {
 export const deleteTransfer = async (id) => {
   assertPool();
 
-  const { rowCount } = await pool.query('DELETE FROM transferencias WHERE id = $1', [id]);
+  const { rowCount } = await pool.query('DELETE FROM transacctions WHERE id = $1', [id]);
   return rowCount > 0;
 };

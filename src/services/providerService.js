@@ -7,16 +7,16 @@ const assertPool = () => {
 };
 
 // Insert a new provider.
-export const createProvider = async ({ nombre, email }) => {
+export const createProvider = async ({ name, email }) => {
   assertPool();
 
   const { rows } = await pool.query(
     `
-      INSERT INTO proveedores (nombre, email)
+      INSERT INTO suppliers (name, email)
       VALUES ($1, $2)
-      RETURNING id, nombre, email
+      RETURNING id, name, email
     `,
-    [nombre, email]
+    [name, email]
   );
 
   return rows[0];
@@ -26,7 +26,7 @@ export const createProvider = async ({ nombre, email }) => {
 export const getProviders = async () => {
   assertPool();
 
-  const { rows } = await pool.query('SELECT id, nombre, email FROM proveedores ORDER BY id ASC');
+  const { rows } = await pool.query('SELECT id, name, email FROM suppliers ORDER BY id ASC');
   return rows;
 };
 
@@ -34,22 +34,22 @@ export const getProviders = async () => {
 export const getProviderById = async (id) => {
   assertPool();
 
-  const { rows } = await pool.query('SELECT id, nombre, email FROM proveedores WHERE id = $1', [id]);
+  const { rows } = await pool.query('SELECT id, name, email FROM suppliers WHERE id = $1', [id]);
   return rows[0] ?? null;
 };
 
 // Update one provider by id.
-export const updateProvider = async (id, { nombre, email }) => {
+export const updateProvider = async (id, { name, email }) => {
   assertPool();
 
   const { rows } = await pool.query(
     `
-      UPDATE proveedores
-      SET nombre = $1, email = $2
+      UPDATE suppliers
+      SET name = $1, email = $2
       WHERE id = $3
-      RETURNING id, nombre, email
+      RETURNING id, name, email
     `,
-    [nombre, email, id]
+    [name, email, id]
   );
 
   return rows[0] ?? null;
@@ -59,6 +59,6 @@ export const updateProvider = async (id, { nombre, email }) => {
 export const deleteProvider = async (id) => {
   assertPool();
 
-  const { rowCount } = await pool.query('DELETE FROM proveedores WHERE id = $1', [id]);
+  const { rowCount } = await pool.query('DELETE FROM suppliers WHERE id = $1', [id]);
   return rowCount > 0;
 };
