@@ -10,11 +10,11 @@ import { parseId, requiredString } from '../utils/validators.js';
 
 // Validate provider payload for create and update operations.
 const parseProviderPayload = (body, { partial = false } = {}) => {
-  const nombre = body?.nombre;
+  const name= body?.name;
   const email = body?.email;
 
   return {
-    nombre: partial && nombre === undefined ? undefined : requiredString(nombre, 'nombre'),
+    name: partial && name === undefined ? undefined : requiredString(name, 'name'),
     email: partial && email === undefined ? undefined : requiredString(email, 'email')
   };
 };

@@ -7,37 +7,37 @@ export const initDb = async () => {
   }
 
   await pool.query(`
-    CREATE TABLE IF NOT EXISTS clientes (
+    CREATE TABLE IF NOT EXISTS customers (
       id SERIAL PRIMARY KEY,
-      nombre VARCHAR(120) NOT NULL,
+      name VARCHAR(120) NOT NULL,
       email VARCHAR(150) NOT NULL UNIQUE,
-      telefono VARCHAR(30),
-      direccion VARCHAR(255)
+      phone VARCHAR(30),
+      address  VARCHAR(255)
     );
   `);
 
   await pool.query(`
-    CREATE TABLE IF NOT EXISTS proveedores (
+    CREATE TABLE IF NOT EXISTS providers (
       id SERIAL PRIMARY KEY,
-      nombre VARCHAR(120) NOT NULL,
+      name VARCHAR(120) NOT NULL,
       email VARCHAR(150) NOT NULL UNIQUE
     );
   `);
 
   await pool.query(`
-    CREATE TABLE IF NOT EXISTS productos (
+    CREATE TABLE IF NOT EXISTS products (
       id SERIAL PRIMARY KEY,
-      nombre_producto VARCHAR(150) NOT NULL,
-      cantidad INTEGER NOT NULL DEFAULT 0 CHECK (cantidad >= 0),
+      name_product VARCHAR(150) NOT NULL,
+      amount INTEGER NOT NULL DEFAULT 0 CHECK (amount >= 0),
       skun VARCHAR(80) NOT NULL UNIQUE,
-      precio NUMERIC(12, 2) NOT NULL DEFAULT 0 CHECK (precio >= 0)
+      price NUMERIC(12, 2) NOT NULL DEFAULT 0 CHECK (price >= 0)
     );
   `);
 
   await pool.query(`
-    CREATE TABLE IF NOT EXISTS transferencias (
+    CREATE TABLE IF NOT EXISTS transacctions| (
       id SERIAL PRIMARY KEY,
-      fecha TIMESTAMP NOT NULL
+      order_date TIMESTAMP NOT NULL
     );
   `);
 

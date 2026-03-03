@@ -9,12 +9,12 @@ import { parseId, requiredDateString } from '../utils/validators.js';
 
 // Validate transfer payload for create and update operations.
 const parseTransferPayload = (body, { partial = false } = {}) => {
-  const fecha = body?.fecha;
+  const order_date = body?.order_date;
 
-  if (partial && fecha === undefined) return { fecha: undefined };
+  if (partial && order_date === undefined) return { order_date: undefined };
 
   return {
-    fecha: requiredDateString(fecha, 'fecha')
+    order_date: requiredDateString(order_date, 'order_date')
   };
 };
 
@@ -60,7 +60,7 @@ export const updateTransferHandler = async (req, res, next) => {
 
     const payload = parseTransferPayload(req.body, { partial: true });
     const updated = await updateTransfer(id, {
-      fecha: payload.fecha ?? current.fecha
+      order_date: payload.order_date ?? current.order_date
     });
 
     return res.status(200).json(updated);

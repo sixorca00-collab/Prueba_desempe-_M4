@@ -10,16 +10,16 @@ import { optionalString, parseId, requiredString } from '../utils/validators.js'
 
 // Validate client payload for create and update operations.
 const parseClientPayload = (body, { partial = false } = {}) => {
-  const nombre = body?.nombre;
+  const name = body?.name ;
   const email = body?.email;
-  const telefono = body?.telefono;
-  const direccion = body?.direccion;
+  const phone = body?.phone;
+  const address = body?.address;
 
   return {
-    nombre: partial && nombre === undefined ? undefined : requiredString(nombre, 'nombre'),
+    name: partial && name === undefined ? undefined : requiredString(name, 'name'),
     email: partial && email === undefined ? undefined : requiredString(email, 'email'),
-    telefono: optionalString(telefono, 'telefono'),
-    direccion: optionalString(direccion, 'direccion')
+    phone: optionalString(phone, 'phone'),
+    address: optionalString(address, 'address')
   };
 };
 

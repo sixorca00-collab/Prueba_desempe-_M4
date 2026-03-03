@@ -31,8 +31,8 @@ export const createProductHandler = async (req, res, next) => {
   try {
     const payload = parseProductPayload(req.body);
 
-    if (payload.cantidad === undefined) throw httpError('cantidad is required.', 400);
-    if (payload.precio === undefined) throw httpError('precio is required.', 400);
+    if (payload.cantidad === undefined) throw httpError('amount is required.', 400);
+    if (payload.precio === undefined) throw httpError('price is required.', 400);
 
     const product = await createProduct(payload);
     res.status(201).json(product);
